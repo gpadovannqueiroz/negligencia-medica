@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<?php
+// Verifica se o formulário foi enviado
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Coleta os dados do formulário
+    $nome = $_POST["nome"];
+    $email = $_POST["email"];
+    $mensagem = $_POST["mensagem"];
+
+    // Formata os dados para armazenamento
+    $dados = "Nome: $nome\nE-mail: $email\nMensagem: $mensagem\n\n";
+
+    // Define o nome do arquivo de texto onde os dados serão armazenados
+    $arquivo = "dados_formulario.txt";
+
+    // Abre o arquivo no modo de escrita (append)
+    $arquivo_aberto = fopen($arquivo, "a");
+
+    // Escreve os dados no arquivo
+    if ($arquivo_aberto) {
+        fwrite($arquivo_aberto, $dados);
+        fclose($arquivo_aberto);
+        echo "Os dados foram armazenados com sucesso!";
+    } else {
+        echo "Ocorreu um erro ao armazenar os dados.";
+    }
+} else {
+    // Caso o formulário não tenha sido enviado, exibe uma mensagem de erro
+    echo "O formulário não foi enviado.";
+}
+?>
+
+<head>
+    <title>Formulário HTML</title>
+</head>
+<body>
+    <h2>Exemplo de Formulário</h2>
+
+    <form action="processar_formulario.php" method="post">
+        <!-- Campos de entrada -->
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required><br><br>
+
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="mensagem">Mensagem:</label>
+        <textarea id="mensagem" name="mensagem" rows="4" cols="50" required></textarea><br><br>
+
+        <!-- Botão de envio -->
+        <input type="submit" value="Enviar">
+    </form>
+</body>
+</html>
